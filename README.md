@@ -145,15 +145,4 @@ src/
 - Perubahan struktur tabel di versi berikutnya: tambahkan `ALTER TABLE` di akhir `electron/skema.js`, jangan mengubah tabel yang sudah ada, agar backup lama tetap bisa dibuka.
 - Keamanan Electron: `contextIsolation` aktif, `nodeIntegration` mati, `sandbox` aktif, dan ada Content-Security-Policy yang menolak sumber luar.
 
-## Status pengujian
 
-Sudah diuji otomatis (di lingkungan pengembangan tanpa Windows):
-- Logika format dan urutan nomor induk (`nis.js`)
-- Seluruh logika database (`db.js`): simpan, nomor otomatis, urut ulang, pindah angkatan, impor, format, password, backup, pulihkan, file rusak. Pengujian memakai pengganti sql.js di atas SQLite bawaan Node.
-- Sintaks semua file Electron dan semua file tampilan, serta validitas skema SQL
-- Tampilan desain baru (acuan: SIMS Santri PP. An Nur Slawi) dirender di Chromium dengan data contoh: Dashboard, Data Santri, dialog Export, Form, Angkatan & Kelas, Import, Backup, Pengaturan; tanpa error di konsol
-
-**Belum diuji, mohon dicoba pada build pertama:**
-- Tampilan di jendela Electron yang sebenarnya (ukuran jendela kecil, layar Kunci, dialog pemulihan password)
-- Pembuatan dan pembukaan file Excel yang sebenarnya (`excel.js` memakai ExcelJS)
-- Dialog simpan/buka file Windows, pemilihan foto, dan pembuatan `.exe` itu sendiri
