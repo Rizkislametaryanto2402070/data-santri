@@ -1,0 +1,27 @@
+name: Build Data Santri (Windows)
+
+# Menghasilkan Setup.exe dan versi portable di server GitHub, tanpa perlu
+# memasang apa pun di laptop. Jalankan lewat tab Actions > "Build Data Santri
+# (Windows)" > Run workflow, atau otomatis setiap ada tag versi (misal v1.0.0).
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install
+      - run: npm run dist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DataSantri-Windows
+          path: |
+            release/*.exe
+          if-no-files-found: error
