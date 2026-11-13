@@ -142,16 +142,4 @@ docs/          panduan teknis dan gambar
 build/         ikon aplikasi
 ```
 
-## Data dan privasi
 
-- Data disimpan di laptop pengguna, di `C:\Users\<nama>\AppData\Roaming\Data Santri\data\santri.db` (versi terpasang) atau folder `DataSantri-Data` di sebelah file `.exe` (versi portable).
-- Password aplikasi hanya mengunci tampilan. File `santri.db` dan file backup **tidak dienkripsi**, jadi simpan di tempat aman dan pertimbangkan mengaktifkan BitLocker.
-- **Jangan mengunggah file `.db` atau data santri ke repositori ini.** File `.gitignore` sudah mengecualikan `*.db`, tetapi tetap periksa sebelum melakukan commit.
-
-## Dokumentasi lanjutan
-
-Cara serah terima ke pengurus berikutnya, aturan format Nomor Induk Santri, lokasi data, dan catatan teknis ada di [docs/PANDUAN-TEKNIS.md](docs/PANDUAN-TEKNIS.md).
-
-## Rencana ke depan
-
-Ide yang masih dipertimbangkan: versi yang bisa diakses lewat HP dan versi online. Rencana ini belum dikerjakan dan menunggu kebutuhan nyata di pondok.
