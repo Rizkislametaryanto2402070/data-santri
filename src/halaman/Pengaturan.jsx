@@ -58,9 +58,9 @@ function FormatNis() {
             type="button"
             title={k.ket}
             onClick={() => setFmt((f) => f + k.kode)}
-            className="px-3.5 py-2 rounded-xl border border-slate-300 bg-white hover:bg-[#F4F9F7] text-left transition-colors"
+            className="px-3.5 py-2 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-left transition-colors"
           >
-            <span className="font-mono text-xs font-bold text-[#164A41]">{k.kode}</span>
+            <span className="font-mono text-xs font-bold text-slate-800">{k.kode}</span>
             <span className="block text-[11px] font-medium text-slate-500">{k.ket}</span>
           </button>
         ))}
@@ -69,12 +69,12 @@ function FormatNis() {
       {cek && !cek.ok && <Banner jenis="galat">{cek.error}</Banner>}
 
       {cek && cek.ok && (
-        <div className="bg-[#E3F0EC] border border-[#8CCBB5] rounded-2xl px-4 py-3 flex flex-col gap-1.5">
-          <div className="text-xs font-extrabold text-[#164A41]">Contoh hasil (memakai angkatan terbaru)</div>
+        <div className="bg-[#E6F4F1] border border-[#B5E2D8] rounded-2xl px-4 py-3 flex flex-col gap-1.5">
+          <div className="text-xs font-extrabold text-slate-800">Contoh hasil (memakai angkatan terbaru)</div>
           {cek.contoh.map((c) => (
             <div key={c.label} className="flex flex-wrap justify-between gap-3 text-xs">
               <span className="text-slate-600 font-medium">{c.label}</span>
-              <span className="font-mono font-bold text-[#164A41] tabular-nums">{c.nis}</span>
+              <span className="font-mono font-bold text-slate-800 tabular-nums">{c.nis}</span>
             </div>
           ))}
           <p className="m-0 mt-1 text-[11px] font-medium text-slate-500">
@@ -168,13 +168,13 @@ function PasswordKartu({ onPasswordBerubah }) {
       </form>
 
       <Banner jenis="awas">
-        Password hanya mengunci tampilan aplikasi. File data (santri.db) dan file backup <b>tidak dienkripsi</b>, jadi simpan keduanya di tempat yang aman.
+        Password hanya mengunci tampilan aplikasi. File data (santri.db) dan file backup <b>tidak dienkripsi</b>, jadi simpan keduanya di tempat yang aman. Untuk perlindungan lebih kuat, aktifkan BitLocker di Windows 11 (Pengaturan Windows → Privasi & keamanan → Enkripsi perangkat).
       </Banner>
 
       {kode && (
         <Modal judul="Simpan kode pemulihan" ikon="kunci" lebar="max-w-md" onTutup={() => setKode(null)}>
           <p className="m-0 text-xs text-slate-600 font-medium leading-relaxed">Jika Anda lupa password, kode ini satu-satunya cara membuka aplikasi tanpa kehilangan data. <b>Kode hanya ditampilkan sekali.</b> Catat dan simpan di tempat yang aman.</p>
-          <p className="m-0 text-center text-2xl font-mono font-extrabold tracking-widest text-[#164A41] bg-[#E3F0EC] border border-[#8CCBB5] rounded-2xl py-4 select-all">{kode}</p>
+          <p className="m-0 text-center text-2xl font-mono font-extrabold tracking-widest text-slate-800 bg-[#E6F4F1] border border-[#B5E2D8] rounded-2xl py-4 select-all">{kode}</p>
           <div className="pt-3 border-t border-slate-100 flex justify-end"><Tombol varian="utama" onClick={() => setKode(null)}>Sudah saya catat</Tombol></div>
         </Modal>
       )}
@@ -196,11 +196,10 @@ export default function Pengaturan({ onPasswordBerubah }) {
       {info && (
         <Kartu judul="Tentang aplikasi">
           <dl className="m-0 grid grid-cols-[160px_1fr] gap-y-2 text-xs">
-            <dt className="text-slate-500 font-medium">Versi</dt><dd className="m-0 font-bold text-[#164A41]">{info.versi}</dd>
-            <dt className="text-slate-500 font-medium">Jenis</dt><dd className="m-0 font-bold text-[#164A41]">{info.portable ? 'Portable (data di sebelah file .exe)' : 'Terpasang di Windows'}</dd>
-            <dt className="text-slate-500 font-medium">Folder data</dt><dd className="m-0 font-bold text-[#164A41] break-all">{info.folderData}</dd>
+            <dt className="text-slate-500 font-medium">Versi</dt><dd className="m-0 font-bold text-slate-800">{info.versi}</dd>
+            <dt className="text-slate-500 font-medium">Jenis</dt><dd className="m-0 font-bold text-slate-800">{info.portable ? 'Portable (data di sebelah file .exe)' : 'Terpasang di Windows'}</dd>
+            <dt className="text-slate-500 font-medium">Folder data</dt><dd className="m-0 font-bold text-slate-800 break-all">{info.folderData}</dd>
           </dl>
-          <p className="m-0 text-[11px] font-medium text-slate-500">Aplikasi ini berjalan sepenuhnya offline. Tidak ada data yang dikirim ke internet.</p>
         </Kartu>
       )}
     </>

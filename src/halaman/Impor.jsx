@@ -78,8 +78,8 @@ export default function Impor({ pergi }) {
         {baca && baca.kolomHilang.length === 0 && (
           <>
             <div className="flex flex-wrap gap-3 items-center">
-              <span className="text-xs font-extrabold text-[#164A41]">{baca.berkas}</span>
-              <span className="px-3 py-1 rounded-full bg-[#E3F0EC] text-[#164A41] text-[11px] font-bold">{siap.length} siap diimpor</span>
+              <span className="text-xs font-extrabold text-slate-800">{baca.berkas}</span>
+              <span className="px-3 py-1 rounded-full bg-[#E6F4F1] text-slate-800 text-[11px] font-bold">{siap.length} siap diimpor</span>
               {bermasalah.length > 0 && <span className="px-3 py-1 rounded-full bg-red-100 text-red-900 text-[11px] font-bold">{bermasalah.length} bermasalah (dilewati)</span>}
               {otomatis > 0 && <span className="px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-[11px] font-bold">{otomatis} nomor induk akan dibuat otomatis</span>}
             </div>
@@ -103,7 +103,7 @@ export default function Impor({ pergi }) {
                     {baca.baris.slice(0, BATAS_TAMPIL).map((b) => (
                       <tr key={b.no} className={cx('border-t border-slate-100', b.error.length > 0 && 'bg-red-50')}>
                         <td className="px-3 py-2 text-slate-500">{b.no}</td>
-                        <td className="px-3 py-2 font-bold text-[#164A41]">{b.data.nama || '—'}</td>
+                        <td className="px-3 py-2 font-bold text-slate-800">{b.data.nama || '—'}</td>
                         <td className="px-3 py-2">{b.data.angkatan || '—'}</td>
                         <td className="px-3 py-2">{b.data.jenis_kelamin || '—'}</td>
                         <td className="px-3 py-2 tabular-nums">{b.data.nis || <span className="text-slate-400">otomatis</span>}</td>

@@ -62,10 +62,10 @@ function KartuMaster({ tabel, judul, contoh, petunjuk }) {
               ) : (
                 <>
                   <div className="flex-1 min-w-0">
-                    <div className="text-xs font-bold text-[#164A41] truncate">{m.nama}</div>
+                    <div className="text-xs font-bold text-slate-800 truncate">{m.nama}</div>
                     <div className="text-[11px] font-medium text-slate-500">{m.jumlah} santri</div>
                   </div>
-                  <button type="button" aria-label={`Ubah ${m.nama}`} onClick={() => setEdit({ id: m.id, nama: m.nama })} className="w-9 h-9 rounded-full flex items-center justify-center text-slate-500 hover:bg-[#E3F0EC] hover:text-[#164A41]">
+                  <button type="button" aria-label={`Ubah ${m.nama}`} onClick={() => setEdit({ id: m.id, nama: m.nama })} className="w-9 h-9 rounded-full flex items-center justify-center text-slate-500 hover:bg-[#E6F4F1] hover:text-slate-800">
                     <Ikon nama="ubah" ukuran={16} />
                   </button>
                   <button

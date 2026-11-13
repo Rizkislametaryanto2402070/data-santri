@@ -85,6 +85,9 @@ function daftarkanSaluran() {
     } else if (o.mode === 'filter') {
       filter = o.filter || {};
       nama = 'Data_Santri_Hasil_Filter';
+    } else if (o.mode === 'pilihan') {
+      filter = { ids: Array.isArray(o.ids) ? o.ids : [] };
+      nama = 'Data_Santri_Terpilih';
     }
     const rows = db.daftarSantri(filter);
     if (!rows.length) return { ok: false, error: 'Tidak ada data santri untuk diekspor.' };
@@ -204,7 +207,8 @@ function buatJendela() {
     minHeight: 700,
     show: false,
     title: 'Data Santri',
-    backgroundColor: '#F6F5F0',
+    icon: path.join(__dirname, 'ikon.png'),
+    backgroundColor: '#ECEFF3',
     autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),

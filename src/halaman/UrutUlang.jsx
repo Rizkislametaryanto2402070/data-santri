@@ -50,7 +50,7 @@ export default function UrutUlang({ angkatan, onTutup, onSelesai }) {
           </Banner>
 
           <p className="m-0 text-xs text-slate-600 font-medium">
-            Format: <code className="font-bold text-[#164A41]">{p.format}</code>. <b>{berubah.length}</b> dari {p.jumlah} santri akan berganti nomor, disusun Putra A–Z lalu Putri A–Z.
+            Format: <code className="font-bold text-slate-800">{p.format}</code>. <b>{berubah.length}</b> dari {p.jumlah} santri akan berganti nomor, disusun Putra A–Z lalu Putri A–Z.
           </p>
 
           <div className="max-h-[280px] overflow-y-auto border border-slate-200 rounded-xl">
@@ -66,11 +66,11 @@ export default function UrutUlang({ angkatan, onTutup, onSelesai }) {
                 {berubah.map((d) => (
                   <tr key={d.id} className="border-t border-slate-100">
                     <td className="px-3 py-2">
-                      <div className="font-bold text-[#164A41]">{d.nama}</div>
+                      <div className="font-bold text-slate-800">{d.nama}</div>
                       <div className="text-[11px] font-medium text-slate-500">{d.jenis_kelamin}</div>
                     </td>
                     <td className="px-3 py-2 tabular-nums font-mono text-slate-500">{d.lama}</td>
-                    <td className="px-3 py-2 tabular-nums font-mono font-bold text-[#164A41]">{d.baru}</td>
+                    <td className="px-3 py-2 tabular-nums font-mono font-bold text-slate-800">{d.baru}</td>
                   </tr>
                 ))}
               </tbody>

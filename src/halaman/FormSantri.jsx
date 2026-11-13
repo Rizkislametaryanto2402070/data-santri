@@ -185,7 +185,7 @@ export default function FormSantri({ pergi, param }) {
         sub="Kolom bertanda * wajib diisi."
         atas={
           <nav aria-label="Jejak halaman" className="flex items-center gap-2 text-[11px] text-slate-500 font-medium mb-0.5">
-            <button type="button" onClick={() => pergi('santri')} className="bg-transparent border-0 text-[#164A41] font-bold cursor-pointer p-0 hover:underline">Data Santri</button>
+            <button type="button" onClick={() => pergi('santri')} className="bg-transparent border-0 text-slate-800 font-bold cursor-pointer p-0 hover:underline">Data Santri</button>
             <span aria-hidden="true">/</span>
             <span>{idEdit ? 'Ubah Santri' : 'Tambah Santri'}</span>
           </nav>
@@ -219,11 +219,11 @@ export default function FormSantri({ pergi, param }) {
                 <Medan label="Nama Lengkap *" htmlFor="nama" className="flex-[1_1_100%]"><input {...isi('nama')} className={kelasInput} placeholder="Sesuai akta kelahiran" required /></Medan>
 
                 <fieldset className="flex-[1_1_100%] m-0 p-0 border-0 flex flex-col gap-0.5">
-                  <legend className="p-0 mb-1 text-xs font-bold text-[#164A41]">Jenis Kelamin *</legend>
+                  <legend className="p-0 mb-1 text-xs font-bold text-slate-800">Jenis Kelamin *</legend>
                   <div className="flex flex-wrap gap-4">
                     {['Putra', 'Putri'].map((j) => (
                       <label key={j} className="flex items-center gap-2 min-h-[36px] pr-2 text-xs font-semibold text-[#12352E]">
-                        <input type="radio" name="jenis-kelamin" value={j} checked={f.jenis_kelamin === j} onChange={() => ubah('jenis_kelamin', j)} className="w-4 h-4 m-0 accent-[#164A41]" />
+                        <input type="radio" name="jenis-kelamin" value={j} checked={f.jenis_kelamin === j} onChange={() => ubah('jenis_kelamin', j)} className="w-4 h-4 m-0 accent-[#0F766E]" />
                         {j}
                       </label>
                     ))}
@@ -251,7 +251,7 @@ export default function FormSantri({ pergi, param }) {
           <div className="flex-[1_1_300px] min-w-0 flex flex-col gap-5">
             <Kartu judul="Foto Santri">
               <div className="flex flex-col items-center gap-3.5">
-                <div className="w-40 h-40 rounded-2xl border-2 border-dashed border-[#8CCBB5] bg-[#F4F9F7] flex items-center justify-center text-[#8CCBB5] overflow-hidden">
+                <div className="w-40 h-40 rounded-2xl border-2 border-dashed border-[#B5E2D8] bg-slate-50 flex items-center justify-center text-[#B5E2D8] overflow-hidden">
                   {f.foto ? <img src={f.foto} alt={`Foto ${f.nama || 'santri'}`} className="w-full h-full object-cover" /> : <Ikon nama="foto" ukuran={56} />}
                 </div>
                 <input ref={inputFoto} id="foto" type="file" accept="image/jpeg,image/png" onChange={pilihFoto} className="sr-only" tabIndex={-1} aria-label="Pilih file foto" />
@@ -272,11 +272,11 @@ export default function FormSantri({ pergi, param }) {
                 <Medan label="Kamar" htmlFor="kamar" className="flex-[1_1_100%]"><input {...isi('kamar')} className={kelasInput} placeholder="Contoh: 04" /></Medan>
 
                 <fieldset className="flex-[1_1_100%] m-0 p-0 border-0 flex flex-col gap-0.5">
-                  <legend className="p-0 mb-1 text-xs font-bold text-[#164A41]">Status Santri</legend>
+                  <legend className="p-0 mb-1 text-xs font-bold text-slate-800">Status Santri</legend>
                   <div className="flex flex-wrap gap-x-4">
                     {['Aktif', 'Alumni', 'Boyong', 'Pindah'].map((s) => (
                       <label key={s} className="flex items-center gap-2 min-h-[36px] pr-2 text-xs font-semibold text-[#12352E]">
-                        <input type="radio" name="status" value={s} checked={f.status === s} onChange={() => ubah('status', s)} className="w-4 h-4 m-0 accent-[#164A41]" />
+                        <input type="radio" name="status" value={s} checked={f.status === s} onChange={() => ubah('status', s)} className="w-4 h-4 m-0 accent-[#0F766E]" />
                         {s}
                       </label>
                     ))}
@@ -292,7 +292,7 @@ export default function FormSantri({ pergi, param }) {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-[#164A41]/10 px-6 py-4 flex flex-wrap items-center justify-end gap-3">
+        <div className="bg-white rounded-2xl shadow-[0_2px_12px_-4px_rgba(15,23,42,0.06)] border border-slate-100/80 px-6 py-4 flex flex-wrap items-center justify-end gap-3">
           <span className="mr-auto text-[11px] font-medium text-slate-500">Data disimpan langsung ke database di laptop ini.</span>
           <Tombol onClick={() => pergi('santri')}>Batal</Tombol>
           {!idEdit && <Tombol varian="hijau" onClick={() => simpan(true)} disabled={sibuk}>Simpan &amp; Tambah Lagi</Tombol>}

@@ -1,148 +1,157 @@
+<div align="center">
+
 # Data Santri
 
-Aplikasi desktop **offline** untuk mengelola data santri pondok pesantren. Satu pengguna, satu laptop, tanpa internet. Berjalan di Windows 10/11 dan dikemas menjadi file `.exe`.
+**Aplikasi desktop untuk mengelola data santri Pondok Pesantren An Nur Slawi**
 
-**Teknologi:** Electron · React · Tailwind CSS · SQLite (sql.js) · ExcelJS · electron-builder
+Berjalan sepenuhnya di laptop, tanpa internet, dan dikemas menjadi file `.exe` untuk Windows.
 
----
+![Electron](https://img.shields.io/badge/Electron-33-47848F?style=for-the-badge&logo=electron&logoColor=white)
+![React](https://img.shields.io/badge/React-18-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Vite](https://img.shields.io/badge/Vite-5-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-sql.js-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+![Windows](https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?style=for-the-badge&logo=windows&logoColor=white)
+
+</div>
+
+![Dashboard Data Santri](docs/gambar/dashboard.png)
+
+## Tentang proyek
+
+Selama ini data santri di pondok kami tercatat di buku dan beberapa file Excel yang terpisah-pisah. Mencari satu santri, menyiapkan data untuk lomba, atau menyerahkan data ke pengurus berikutnya selalu memakan waktu. Karena itu saya membuat **Data Santri**: satu aplikasi yang menyimpan semuanya di satu tempat, ringan, dan bisa dipakai tanpa koneksi internet.
+
+Aplikasi ini dirancang untuk **satu pengguna di satu laptop**, jadi sederhana dipakai dan data pribadi santri tidak pernah keluar dari laptop.
 
 ## Fitur
 
-- Data santri lengkap: identitas, wali, angkatan, kelas, asrama, status (Aktif, Alumni, Boyong, Pindah), catatan, dan foto
-- **Nomor Induk Santri otomatis** dengan format yang bisa diatur sendiri (lihat bagian di bawah)
-- Daftar santri per angkatan, dipisah blok **Putra** dan **Putri**, tiap blok urut **A–Z**
-- Pencarian cepat (nama, nomor induk, nama wali) dan filter angkatan, status, kelas, asrama, jenis kelamin
-- **Export Excel:** semua santri, per angkatan, atau sesuai hasil filter; pilihan kolom; opsi satu sheet per angkatan
+- **Data santri lengkap:** identitas, wali, angkatan, kelas, asrama, status (Aktif, Alumni, Boyong, Pindah), catatan, dan foto (maksimal 500 KB)
+- **Nomor Induk Santri otomatis** dengan format yang bisa diatur sendiri, plus tombol urutkan ulang per angkatan
+- **Daftar rapi per angkatan:** dipisah blok Putra dan Putri, tiap blok urut A–Z
+- **Pencarian dan filter:** nama, nomor induk, nama wali, angkatan, kelas, asrama, status, jenis kelamin
+- **Export Excel:** semua santri, per angkatan, hasil filter, atau **santri tertentu yang dicentang** (berguna untuk lomba), dengan pilihan kolom
 - **Import Excel** dari template, dengan pratinjau dan penanda baris bermasalah
 - **Backup & Restore** satu klik (satu file `.db`), plus backup otomatis ke folder pilihan setiap aplikasi ditutup
-- Dashboard ringkasan, password opsional (dengan kode pemulihan)
-- Foto maksimal 500 KB, otomatis diperkecil agar database tetap ringan
-- Sepenuhnya offline: font dan semua pustaka dibundel di dalam aplikasi
+- **Dashboard** ringkasan, dan **password opsional** dengan kode pemulihan
+- **Tampilan responsif:** sidebar bisa dibuka-tutup dan otomatis berganti menjadi navbar di jendela sempit
 
----
+## Tampilan
 
-## Membuat file `.exe`
+| Data Santri dengan pilihan | Export Excel |
+|---|---|
+| ![Data Santri](docs/gambar/data-santri.png) | ![Export Excel](docs/gambar/export-excel.png) |
 
-Ada dua cara. Keduanya butuh internet **satu kali** untuk mengunduh pustaka; aplikasi hasilnya tidak butuh internet sama sekali.
+![Mode navbar](docs/gambar/mode-navbar.png)
 
-### Cara 1: GitHub Actions (tanpa memasang apa pun di laptop)
+> Gambar di atas memakai data contoh, bukan data santri sebenarnya.
 
-1. Unggah folder proyek ini ke repositori GitHub (boleh privat).
-2. Buka tab **Actions**, pilih **Build Data Santri (Windows)**, klik **Run workflow**.
-3. Tunggu sekitar 5–10 menit, lalu unduh hasilnya di bagian **Artifacts** (`DataSantri-Windows`).
+## Dibangun dengan Electron
 
-Isinya dua file:
-- `DataSantri-Setup-1.0.0.exe`: installer biasa
-- `DataSantri-Portable-1.0.0.exe`: versi portable, bisa dijalankan dari flashdisk tanpa instalasi
+Aplikasi ini dibangun di atas **[Electron](https://www.electronjs.org/)**, kerangka kerja untuk membuat aplikasi desktop dengan teknologi web (HTML, CSS, JavaScript). Alasan saya memilihnya:
 
-### Cara 2: Build di laptop Windows
+- **Satu bahasa untuk semuanya.** Tampilan (React) dan logika (Node.js) sama-sama JavaScript, sehingga mudah dirawat oleh pengurus berikutnya.
+- **Jadi aplikasi Windows sungguhan.** Hasilnya file `.exe` yang bisa dipasang atau dijalankan dari flashdisk, lengkap dengan ikon, dialog simpan/buka file, dan jendela sendiri.
+- **Akses file di laptop.** Data disimpan di satu file lokal, dan backup serta Excel bisa ditulis langsung ke folder pilihan.
+- **Tampilan modern.** Antarmuka dibuat dengan React dan Tailwind CSS tanpa keterbatasan tampilan desktop klasik.
 
-Pasang **Node.js 22 LTS** (nodejs.org), lalu di folder proyek:
+### Arsitektur
 
+Electron membagi aplikasi menjadi dua proses yang berkomunikasi lewat IPC:
+
+```mermaid
+flowchart LR
+    subgraph R["Proses tampilan (Renderer)"]
+        UI["React + Tailwind CSS<br/>src/"]
+    end
+    subgraph P["Jembatan aman"]
+        PL["preload.js<br/>(contextBridge)"]
+    end
+    subgraph M["Proses utama (Main, Node.js)"]
+        MAIN["main.js<br/>jendela, dialog file, IPC"]
+        DB["db.js + sql.js<br/>SQLite"]
+        XL["excel.js<br/>ExcelJS"]
+    end
+    FILE[("santri.db<br/>di laptop")]
+
+    UI -- "window.api.panggil('santri:daftar')" --> PL
+    PL -- "ipcRenderer.invoke" --> MAIN
+    MAIN --> DB
+    MAIN --> XL
+    DB --> FILE
 ```
+
+- **Renderer (`src/`)** hanya mengurus tampilan dan tidak punya akses langsung ke file atau sistem.
+- **Preload (`electron/preload.js`)** hanya meneruskan saluran IPC yang namanya sesuai pola yang diizinkan.
+- **Main (`electron/`)** menjalankan semua aturan data: database, nomor induk, Excel, backup.
+
+Pengaturan keamanan Electron yang dipakai: `contextIsolation` aktif, `nodeIntegration` mati, `sandbox` aktif, dan ada Content-Security-Policy yang menolak sumber dari luar. Aplikasi juga menolak membuka jendela atau halaman ke alamat internet.
+
+## Teknologi
+
+| Bagian | Teknologi |
+|---|---|
+| Kerangka desktop | Electron |
+| Tampilan | React 18, Vite, Tailwind CSS 3, font Plus Jakarta Sans (dibundel) |
+| Database | SQLite lewat sql.js (WebAssembly), disimpan di satu file `santri.db` |
+| Excel | ExcelJS |
+| Pengemasan | electron-builder (installer NSIS dan versi portable) |
+| Build otomatis | GitHub Actions |
+
+## Menjalankan di komputer sendiri
+
+Butuh [Node.js](https://nodejs.org/) 22 LTS.
+
+```bash
+git clone https://github.com/NAMAANDA/NAMA-REPO.git
+cd NAMA-REPO
 npm install
-npm run dist
-```
 
-Hasilnya ada di folder `release/`.
-
-Sebelum memasang, aplikasi hasil build bisa dites langsung tanpa instalasi dengan membuka `release\win-unpacked\Data Santri.exe`. Kalau jendela aplikasi terbuka normal, `Setup.exe` aman dipasang.
-
-Versi electron-builder dikunci ke `26.0.13`. Versi 25.1.8 dan 26.0.12 diketahui kadang tidak menyertakan pustaka turunan ke dalam aplikasi, sehingga muncul error `Cannot find module ...` setelah dipasang.
-
-### Menjalankan untuk pengembangan
-
-```
-npm install
-npm run dev      # buka aplikasi dengan live reload
+npm run dev      # mode pengembangan dengan live reload
 npm run start    # build tampilan lalu buka aplikasi
 ```
 
-### Ikon aplikasi
+## Membuat file .exe
 
-Ikon aplikasi (file `.exe`, installer, pintasan Desktop, dan taskbar) memakai logo pondok di `build/icon.ico`. Untuk menggantinya, timpa file itu dengan `.ico` baru (minimal 256×256 px, sebaiknya memuat beberapa ukuran) lalu build ulang.
+**Di laptop Windows:**
 
----
+```bash
+npm run dist
+```
 
-## Peringatan Windows SmartScreen
+Hasilnya ada di folder `release/`: `DataSantri-Setup-x.x.x.exe` (installer) dan `DataSantri-Portable-x.x.x.exe` (bisa dijalankan dari flashdisk).
 
-File `.exe` tanpa tanda tangan digital (sertifikat berbayar) akan memunculkan layar biru **"Windows protected your PC"** di laptop lain. Ini normal. Klik **More info**, lalu **Run anyway**. Sebagian antivirus bisa ikut memberi peringatan palsu untuk alasan yang sama.
+**Lewat GitHub Actions:** buka tab **Actions**, pilih **Build Data Santri (Windows)**, lalu **Run workflow**. Build juga berjalan otomatis setiap ada tag versi, misalnya `v1.0.0`. Hasilnya diunduh dari bagian **Artifacts**.
 
----
-
-## Lokasi data
-
-| Jenis | Lokasi data |
-|---|---|
-| Installer | `C:\Users\<nama>\AppData\Roaming\Data Santri\data\santri.db` |
-| Portable | Folder `DataSantri-Data` di sebelah file `.exe` |
-
-Data **tidak ikut terhapus** saat aplikasi di-update atau di-uninstall. Menu **Backup & Restore → Buka Folder Data** membuka lokasi ini.
-
----
-
-## Serah terima ke pengganti pengurus
-
-1. Di laptop lama: menu **Backup & Restore → Backup Sekarang**, simpan file `.db`.
-2. Kirim file backup dan `DataSantri-Setup-x.x.x.exe` lewat flashdisk atau WhatsApp.
-3. Di laptop baru: pasang aplikasi, buka **Backup & Restore → Pulihkan dari File Backup**, pilih file `.db`.
-4. Pengganti sebaiknya membuat password baru di **Pengaturan**.
-
-> File backup berisi data pribadi anak-anak (NIK, alamat, data wali). Simpan di tempat yang aman dan jangan dibagikan sembarangan. Password aplikasi hanya mengunci tampilan; file `santri.db` dan file backup **tidak dienkripsi**.
-
-Update aplikasi dilakukan manual: kirim `Setup.exe` versi baru dan pasang di atas yang lama. Data tetap aman.
-
----
-
-## Nomor Induk Santri
-
-Nomor induk menggantikan kolom "No" di daftar dan di Excel. Format diatur di **Pengaturan → Format Nomor Induk Santri**, dengan kode:
-
-| Kode | Arti |
-|---|---|
-| `{ANGKATAN}` | Nama angkatan (tulis sebagai tahun, mis. 2024). **Wajib** |
-| `{JK}` | 1 = Putra, 2 = Putri |
-| `{LP}` | L = Putra, P = Putri |
-| `{URUT:3}` | Nomor urut, diisi nol di depan sampai 3 digit. **Wajib**, tepat satu |
-
-Format bawaan: `{ANGKATAN}-{JK}-{URUT:3}`, misalnya `2024-1-001`.
-
-**Aturan nomor urut**
-- Jika format memuat `{JK}` atau `{LP}`, urutan dimulai lagi dari 1 untuk Putra dan Putri.
-- Jika tidak, urutan berjalan per angkatan: Putra dulu, lalu Putri.
-
-**Cara kerja**
-- Santri baru otomatis mendapat **nomor berikutnya**. Santri lain **tidak digeser**, sehingga nomor yang sudah tercetak di kartu atau dokumen tetap benar.
-- Tombol **Urutkan Ulang Nomor Induk** (muncul di Data Santri saat satu angkatan dipilih) menyusun ulang nomor satu angkatan: Putra A–Z, lalu Putri A–Z. Ada pratinjau dan salinan data otomatis (5 terbaru disimpan di folder data). Jalankan hanya jika nomor belum dipakai di dokumen resmi, misalnya sekali setelah penerimaan angkatan selesai.
-- Saat impor Excel, baris dengan kolom NIS kosong diberi nomor otomatis **urut abjad**, walau urutan di file acak. Baris yang sudah punya NIS mempertahankan nomornya.
-- Jika angkatan atau jenis kelamin santri diubah, nomornya dibuat ulang otomatis kecuali nomor diisi manual.
-- Mengubah format **tidak** mengubah nomor yang sudah ada. Terapkan ke santri lama lewat Urutkan Ulang.
-
----
+> File `.exe` ini belum bertanda tangan digital, jadi Windows bisa menampilkan peringatan SmartScreen. Klik **More info**, lalu **Run anyway**.
 
 ## Struktur proyek
 
 ```
 electron/
   main.js      proses utama: jendela, dialog file, saluran IPC, backup otomatis
-  preload.js   jembatan aman ke tampilan (hanya saluran yang diizinkan)
-  db.js        semua operasi database dan aturan data
-  nis.js       format dan urutan nomor induk (fungsi murni)
+  preload.js   jembatan aman ke tampilan
+  db.js        operasi database dan aturan data
+  nis.js       format dan urutan nomor induk santri
   excel.js     export, template, dan pembacaan file impor
   skema.js     skema tabel SQLite
 src/
-  App.jsx      kerangka, menu, kunci aplikasi
-  ui.jsx       komponen dasar (tombol, dialog, toast, ikon)
-  halaman/     Dashboard, DaftarSantri, FormSantri, ExportDialog, UrutUlang,
-               Master, Impor, Backup, Pengaturan, Kunci
+  App.jsx      kerangka, sidebar/navbar, kunci aplikasi
+  ui.jsx       komponen dasar (tombol, dialog, toast, ikon, logo)
+  halaman/     Dashboard, Data Santri, Form, Export, Import, Backup, Pengaturan
+docs/          panduan teknis dan gambar
+build/         ikon aplikasi
 ```
 
-## Catatan teknis
+## Data dan privasi
 
-- Database memakai **sql.js** (SQLite WebAssembly): tidak ada komponen native yang harus dikompilasi. Seluruh database dimuat ke memori dan ditulis ke file `santri.db` setiap ada perubahan, lewat file sementara agar file utama tidak pernah setengah jadi. Untuk ratusan santri ini sangat cepat.
-- Foto disimpan di dalam database sebagai gambar JPEG kecil (±360 px). Daftar santri tidak memuat foto, hanya form ubah.
-- Jika file `santri.db` rusak, aplikasi memindahkannya (tidak menghapus) ke `santri.db.rusak-...` lalu mulai dari kosong dan memberi tahu pengguna.
-- Perubahan struktur tabel di versi berikutnya: tambahkan `ALTER TABLE` di akhir `electron/skema.js`, jangan mengubah tabel yang sudah ada, agar backup lama tetap bisa dibuka.
-- Keamanan Electron: `contextIsolation` aktif, `nodeIntegration` mati, `sandbox` aktif, dan ada Content-Security-Policy yang menolak sumber luar.
+- Data disimpan di laptop pengguna, di `C:\Users\<nama>\AppData\Roaming\Data Santri\data\santri.db` (versi terpasang) atau folder `DataSantri-Data` di sebelah file `.exe` (versi portable).
+- Password aplikasi hanya mengunci tampilan. File `santri.db` dan file backup **tidak dienkripsi**, jadi simpan di tempat aman dan pertimbangkan mengaktifkan BitLocker.
+- **Jangan mengunggah file `.db` atau data santri ke repositori ini.** File `.gitignore` sudah mengecualikan `*.db`, tetapi tetap periksa sebelum melakukan commit.
 
+## Dokumentasi lanjutan
 
+Cara serah terima ke pengurus berikutnya, aturan format Nomor Induk Santri, lokasi data, dan catatan teknis ada di [docs/PANDUAN-TEKNIS.md](docs/PANDUAN-TEKNIS.md).
+
+## Rencana ke depan
+
+Ide yang masih dipertimbangkan: versi yang bisa diakses lewat HP dan versi online. Rencana ini belum dikerjakan dan menunggu kebutuhan nyata di pondok.

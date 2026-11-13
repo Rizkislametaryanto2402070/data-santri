@@ -163,6 +163,13 @@ function daftarSantri(f = {}) {
   if (f.asramaId) { where.push('s.asrama_id = ?'); p.push(Number(f.asramaId)); }
   if (f.status) { where.push('s.status = ?'); p.push(f.status); }
   if (f.jenisKelamin) { where.push('s.jenis_kelamin = ?'); p.push(f.jenisKelamin); }
+  // Daftar ID santri tertentu (dipakai ekspor "santri yang dipilih"). Daftar kosong = tidak ada hasil.
+  if (Array.isArray(f.ids)) {
+    const ids = [...new Set(f.ids.map(Number).filter((n) => Number.isInteger(n) && n > 0))];
+    if (!ids.length) return [];
+    where.push(`s.id IN (${ids.map(() => '?').join(',')})`);
+    p.push(...ids);
+  }
   // Urutan: angkatan terbaru dulu, di tiap angkatan Putra lalu Putri, di tiap blok A-Z.
   return semua(
     selectSantri(false) + (where.length ? ' WHERE ' + where.join(' AND ') : ''),

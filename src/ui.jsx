@@ -98,6 +98,8 @@ const BENTUK = {
   hapus: (<><path d="M3 6h18" /><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /><path d="m19 6-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" /></>),
   centang: (<path d="m5 12 5 5 9-10" />),
   tutup: (<path d="M18 6 6 18M6 6l12 12" />),
+  bawah: (<path d="m6 9 6 6 6-6" />),
+  menu: (<path d="M4 6h16M4 12h16M4 18h16" />),
   kiri: (<path d="m15 18-6-6 6-6" />),
   kanan: (<path d="m9 18 6-6-6-6" />),
   peringatan: (<><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" /><path d="M12 9v4" /><path d="M12 17h.01" /></>),
@@ -123,11 +125,11 @@ export function Ikon({ nama, ukuran = 16, tebal = 2, className }) {
 // ---------------------------------------------------------------- tombol dan isian
 
 const VARIAN = {
-  utama: { tombol: 'bg-[#164A41] text-white border-transparent hover:bg-[#0F362F] shadow-sm', ikon: 'text-[#FACC15]' },
-  garis: { tombol: 'bg-white text-[#164A41] border-[#164A41]/25 hover:bg-[#F2F8F6] shadow-sm', ikon: 'text-emerald-700' },
-  hijau: { tombol: 'bg-white text-[#164A41] border-[#164A41] hover:bg-[#F4F9F7]', ikon: 'text-emerald-700' },
+  utama: { tombol: 'bg-[#0F766E] text-white border-transparent hover:bg-[#115E59] shadow-sm', ikon: 'text-white' },
+  garis: { tombol: 'bg-slate-100 text-slate-700 border-transparent hover:bg-slate-200/80', ikon: 'text-slate-600' },
+  hijau: { tombol: 'bg-white text-[#0F766E] border-[#0F766E] hover:bg-slate-50', ikon: 'text-[#0F766E]' },
   bahaya: { tombol: 'bg-red-700 text-white border-transparent hover:bg-red-800', ikon: 'text-white' },
-  teks: { tombol: 'bg-transparent text-[#164A41] border-transparent hover:bg-[#E3F0EC]', ikon: 'text-emerald-700' }
+  teks: { tombol: 'bg-transparent text-[#0F766E] border-transparent hover:bg-slate-100', ikon: 'text-[#0F766E]' }
 };
 
 export function Tombol({ varian = 'garis', ikon, children, className, ...sisa }) {
@@ -136,7 +138,7 @@ export function Tombol({ varian = 'garis', ikon, children, className, ...sisa })
     <button
       type="button"
       className={cx(
-        'inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full border text-xs font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed',
+        'inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed',
         v.tombol,
         className
       )}
@@ -149,13 +151,13 @@ export function Tombol({ varian = 'garis', ikon, children, className, ...sisa })
 }
 
 export const kelasInput =
-  'w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-xs font-semibold text-[#12352E] placeholder:font-medium placeholder:text-slate-400 focus:outline-none focus:border-[#164A41] focus:ring-2 focus:ring-[#164A41]/15 disabled:bg-slate-50';
+  'w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-xs font-semibold text-[#12352E] placeholder:font-medium placeholder:text-slate-400 focus:outline-none focus:border-[#0F766E] focus:ring-2 focus:ring-[#0F766E]/15 disabled:bg-slate-50';
 
 export function Medan({ label, htmlFor, petunjuk, className, children }) {
   return (
     <div className={cx('flex flex-col gap-1 min-w-0', className)}>
       {label && (
-        <label htmlFor={htmlFor} className="block text-xs font-bold text-[#164A41]">
+        <label htmlFor={htmlFor} className="block text-xs font-bold text-slate-800">
           {label}
         </label>
       )}
@@ -167,12 +169,12 @@ export function Medan({ label, htmlFor, petunjuk, className, children }) {
 
 export function Kartu({ judul, sub, aksi, className, children }) {
   return (
-    <section className={cx('bg-white rounded-2xl p-5 shadow-sm border border-[#164A41]/10 flex flex-col gap-4', className)}>
+    <section className={cx('bg-white rounded-2xl p-6 shadow-[0_2px_12px_-4px_rgba(15,23,42,0.06)] border border-slate-100/80 flex flex-col gap-4', className)}>
       {(judul || aksi) && (
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div>
-            {judul && <h2 className="m-0 text-sm font-extrabold text-[#164A41]">{judul}</h2>}
-            {sub && <p className="m-0 mt-0.5 text-[11px] font-medium text-slate-500">{sub}</p>}
+            {judul && <h2 className="m-0 text-base font-extrabold text-slate-900 tracking-tight">{judul}</h2>}
+            {sub && <p className="m-0 mt-0.5 text-[11px] font-medium text-slate-400">{sub}</p>}
           </div>
           {aksi}
         </div>
@@ -182,14 +184,14 @@ export function Kartu({ judul, sub, aksi, className, children }) {
   );
 }
 
-// Bilah putih di atas halaman (judul di kiri, tombol aksi di kanan), menempel saat halaman digulir.
+// Kepala halaman polos: judul di kiri, tombol aksi di kanan.
 export function HeaderHalaman({ judul, sub, atas, children }) {
   return (
-    <header className="sticky top-0 z-20 -mx-5 -mt-5 bg-white px-6 py-4 border-b border-[#164A41]/10 flex flex-wrap items-center justify-between gap-4">
+    <header className="flex flex-wrap items-center justify-between gap-4 pb-1">
       <div className="min-w-0">
         {atas}
-        <h1 className="m-0 text-xl md:text-2xl font-extrabold text-[#164A41] tracking-tight">{judul}</h1>
-        {sub && <p className="m-0 mt-0.5 text-xs text-slate-500 font-medium">{sub}</p>}
+        <h1 className="m-0 text-2xl font-extrabold text-slate-900 tracking-tight">{judul}</h1>
+        {sub && <p className="m-0 mt-0.5 text-xs font-medium text-slate-500">{sub}</p>}
       </div>
       {children && <div className="flex flex-wrap items-center gap-2.5">{children}</div>}
     </header>
@@ -215,19 +217,25 @@ export function Banner({ jenis = 'info', children, className }) {
 // ---------------------------------------------------------------- status dan avatar
 
 const WARNA_STATUS = {
-  Aktif: 'bg-[#E3F0EC] text-[#164A41]',
-  Alumni: 'bg-sky-100 text-sky-900',
-  Boyong: 'bg-amber-100 text-amber-900',
-  Pindah: 'bg-slate-200 text-slate-800'
+  Aktif: 'text-emerald-600 bg-emerald-50 border-emerald-200/70',
+  Alumni: 'text-sky-600 bg-sky-50 border-sky-200/70',
+  Boyong: 'text-amber-600 bg-amber-50 border-amber-200/70',
+  Pindah: 'text-rose-600 bg-rose-50 border-rose-200/70'
 };
 
 export function Lencana({ status }) {
-  return <span className={cx('inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold', WARNA_STATUS[status] || WARNA_STATUS.Aktif)}>{status}</span>;
+  return (
+    <span className={cx('inline-block px-2.5 py-0.5 rounded-full text-[11px] font-extrabold border', WARNA_STATUS[status] || 'bg-slate-100 text-slate-700 border-slate-200')}>
+      {status}
+    </span>
+  );
 }
 
 export function JkPill({ jk }) {
+  const putra = jk === 'Putra';
   return (
-    <span className={cx('inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold', jk === 'Putra' ? 'bg-emerald-100 text-emerald-900' : 'bg-amber-100 text-amber-900')}>
+    <span className={cx('inline-flex items-center gap-1.5 text-xs font-bold', putra ? 'text-[#0F766E]' : 'text-sky-600')}>
+      <span className={cx('w-2 h-2 rounded-[2px] shrink-0', putra ? 'bg-[#0F766E]' : 'bg-sky-400')} />
       {jk}
     </span>
   );
@@ -240,7 +248,7 @@ export function Avatar({ nama, ukuran = 36 }) {
   const inisial = ((kata[0] || '?')[0] + (kata[1] ? kata[1][0] : '')).toUpperCase();
   const latar = LATAR_AVATAR[String(nama || '').length % LATAR_AVATAR.length];
   return (
-    <div aria-hidden="true" className="rounded-full flex items-center justify-center font-extrabold text-xs shrink-0 text-[#164A41]" style={{ width: ukuran, height: ukuran, background: latar }}>
+    <div aria-hidden="true" className="rounded-full flex items-center justify-center font-extrabold text-xs shrink-0 text-slate-800" style={{ width: ukuran, height: ukuran, background: latar }}>
       {inisial}
     </div>
   );
@@ -262,19 +270,19 @@ export function Modal({ judul, sub, ikon, onTutup, lebar = 'max-w-lg', children 
         role="dialog"
         aria-modal="true"
         aria-labelledby={id}
-        className={cx('bg-white rounded-2xl w-full p-6 shadow-2xl border border-[#164A41]/20 max-h-[calc(100vh-32px)] overflow-y-auto flex flex-col gap-4', lebar)}
+        className={cx('bg-white rounded-2xl w-full p-6 shadow-2xl border border-slate-200 max-h-[calc(100vh-32px)] overflow-y-auto flex flex-col gap-4', lebar)}
       >
         <div className="flex items-center justify-between gap-3 border-b border-slate-100 pb-3">
           <div className="flex items-center gap-2.5 min-w-0">
             {ikon ? (
-              <div className="w-9 h-9 rounded-xl bg-[#D5EFE6] border border-[#8CCBB5] text-[#164A41] flex items-center justify-center shrink-0">
+              <div className="w-9 h-9 rounded-xl bg-[#E6F4F1] border border-[#B5E2D8] text-slate-800 flex items-center justify-center shrink-0">
                 <Ikon nama={ikon} ukuran={18} />
               </div>
             ) : (
               <LogoAnNur className="w-9 h-9 shrink-0" />
             )}
             <div className="min-w-0">
-              <h3 id={id} className="m-0 text-sm font-extrabold text-[#164A41]">{judul}</h3>
+              <h3 id={id} className="m-0 text-sm font-extrabold text-slate-800">{judul}</h3>
               <p className="m-0 text-[11px] text-slate-500">{sub || 'Pondok Pesantren An Nur Slawi'}</p>
             </div>
           </div>
@@ -324,11 +332,11 @@ export function ToastProvider({ children }) {
             key={t.id}
             role={t.jenis === 'galat' ? 'alert' : 'status'}
             className={cx(
-              'px-4 py-3 rounded-2xl shadow-xl border flex items-center gap-2.5 text-xs font-bold break-words',
-              t.jenis === 'galat' ? 'bg-red-50 text-red-900 border-red-300' : 'bg-[#164A41] text-white border-emerald-400/30'
+              'px-4 py-3 rounded-xl shadow-lg border flex items-center gap-2.5 text-xs font-bold break-words',
+              t.jenis === 'galat' ? 'bg-red-50 text-red-900 border-red-300' : 'bg-slate-900 text-white border-white/10'
             )}
           >
-            <span className={cx('w-2 h-2 rounded-full shrink-0', t.jenis === 'galat' ? 'bg-red-600' : 'bg-[#FACC15]')} />
+            <span className={cx('w-2 h-2 rounded-full shrink-0', t.jenis === 'galat' ? 'bg-red-600' : 'bg-emerald-400 animate-ping')} />
             <span>{t.pesan}</span>
           </div>
         ))}

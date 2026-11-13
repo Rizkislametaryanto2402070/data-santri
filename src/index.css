@@ -10,8 +10,8 @@
   }
   body {
     margin: 0;
-    background: #e3f0ec;
-    color: #12352e;
+    background: #f3f6f5;
+    color: #1e293b;
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 12px;
     line-height: 1.5;
@@ -24,7 +24,7 @@
     font-family: inherit;
   }
   :focus-visible {
-    outline: 2px solid #164a41;
+    outline: 2px solid #0f766e;
     outline-offset: 2px;
   }
 }
